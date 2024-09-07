@@ -1,0 +1,96 @@
+{% extends 'courses/base.html' %}
+{% load courses_custom_tag %}
+{% block title %}
+Signup
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .container {
+        margin-top: 50px;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+    }
+
+    .btn-custom {
+        background: linear-gradient(45deg, #ff6b6b, #f94d6a);
+        color: rgb(245, 181, 181);
+        border: none;
+        padding: 10px 15px;
+        font-weight: bold;
+        transition: background 0.3s ease;
+        border-radius: 30px;
+    }
+
+    .btn-custom:hover {
+        background: linear-gradient(45deg, #f94d6a, #ff6b6b);
+    }
+
+    .form-group input[type="submit"] {
+        margin-top: 20px;
+        box-shadow: 0 4px 10px rgba(249, 77, 106, 0.5);
+    }
+
+    h1.display-4 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        background-color: #fff;
+    }
+
+    .container {
+        background-color: #f7f9fc;
+        padding: 50px 15px;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container">
+    <h1 class="display-4 text-center">Join Us Today!</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <form action="/signup" method="POST" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="form-group">
+                        <input type="submit" value="Register" class="btn btn-custom btn-block">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+
+{% endblock %}

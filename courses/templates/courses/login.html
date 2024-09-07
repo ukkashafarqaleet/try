@@ -1,0 +1,83 @@
+{% extends 'courses/base.html' %}
+{% load courses_custom_tag %}
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        background: #f8faff; /* Light background similar to the signup page */
+        font-family: 'Arial', sans-serif;
+    }
+    .container {
+        margin-top: 50px;
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    h1 {
+        font-size: 2.4rem;
+        color: #333; /* Darker color for readability */
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+    hr {
+        border-top: 2px solid #007bff; /* Matching primary color */
+        width: 50%;
+        margin: 15px auto;
+    }
+    form {
+        margin-top: 20px;
+    }
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        padding: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+    }
+    .btn-custom {
+        background-color: #007bff; /* Primary color for buttons */
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.2s;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .btn-custom:hover {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .btn-custom:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+</style>
+
+<div class="container">
+    <h1>Log In</h1>
+    <hr>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Login" class="btn btn-custom">
+    </form>
+</div>
+
+{% endblock %}

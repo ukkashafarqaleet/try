@@ -1,0 +1,256 @@
+{% extends 'courses/base.html' %}
+{% load courses_custom_tag %}
+{% block title %}Courses{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(#1c6787, #3a90b4);
+    }
+    .price {
+        font-size: 20px;
+    }
+    .title {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 36px;
+        color: #007bff; /* Interactive color */
+    }
+    .newsletter-form {
+        margin-top: 40px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .newsletter-form input[type="email"] {
+        width: 60%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .newsletter-form button {
+        padding: 10px 20px;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .newsletter-form button:hover {
+        background-color: #0056b3;
+    }
+    .carousel-inner img {
+        width: 100%;
+        height: 400px; /* Adjust the height as needed */
+        object-fit: cover; /* To maintain aspect ratio */
+    }
+    .why-our-course {
+        background: #e3f2fd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+    }
+    .why-our-course .feature {
+        display: flex;
+        align-items: start;
+        margin-bottom: 20px;
+    }
+    .why-our-course .feature .icon {
+        flex-shrink: 0;
+    }
+    .why-our-course .feature .text h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        color: #007bff;
+    }
+    .why-our-course .feature .text p {
+        margin: 0;
+        color: #555;
+    }
+</style>
+
+<div class="container">
+  <!-- Carousel Section -->
+  <div id="carouselExampleIndicators" class="carousel slide mt-3" data-ride="carousel">
+      <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+          <div class="carousel-item active">
+              <img class="d-block w-100" src='https://i.postimg.cc/8Csf3Xsx/parenting.png'  alt='parenting' alt="First slide">
+          </div>
+          <div class="carousel-item">
+              <img class="d-block w-100" src="https://i.postimg.cc/Y0MvNYyC/YOUR.png" alt="Second slide">
+          </div>
+          <div class="carousel-item">
+              <img class="d-block w-100" src="https://i.postimg.cc/WzDJ1gzW/anotehr.png" alt="Third slide">
+          </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+      </a>
+  </div>
+</div>
+
+<!-- Cards Section -->
+<br>
+<div class="row">
+    {% for course in courses %}
+    <div class="col mx-auto">
+        <div class="card mx-auto" style="width: 18rem;">
+            <img class="card-img-top" src="{{ course.thumbnail.url }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ course.name }}</h5>
+                <p class="card-text m-0 p-0">
+                    Save {{ course.discount }}%
+                    <br>
+                    <span class="price">
+                        <del>{{ course.price|rupee }}</del>
+                         
+                        <span>{% cal_sellprice course.price course.discount as value %} {{ value|rupee }}</span>
+                    </span>
+                </p>
+            </div>
+
+            <div class="card-footer p-0">
+                {% is_enrolled request course as enrolled %}
+                <div class="row no-gutters">
+                    {% if enrolled %}
+                    <div class="col border-right">
+                        <a href="/course/{{ course.slug }}" class="btn btn-light btn-block">Start Course</a>
+                    </div>
+                    {% else %}
+                    <div class="col border-right">
+                        <a href="/check-out/{{ course.slug }}" class="btn btn-light btn-block">Enroll Now</a>
+                    </div>
+                    <div class="col">
+                        <a href="/course/{{ course.slug }}" class="btn btn-light btn-block">Show More</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+<!-- Why Our Course Section -->
+<div class="container mt-5">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="why-our-course p-4 rounded" style="background: #e3f2fd; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+              <h2 class="text-center text-primary mb-4">Why Our Course?</h2>
+              <div class="row">
+                  <div class="col-md-6 mb-3">
+                      <div class="feature d-flex">
+                          <div class="icon mr-3">
+                              <img src="https://i.postimg.cc/SRWSTWG3/istockphoto-1355934840-612x612.jpg" alt="Responsibility Icon" style="width: 50px;">
+                          </div>
+                          <div class="text">
+                              <h5>Parenting is a Responsibility</h5>
+                              <p>Parenting is a serious responsibility that shapes the future of your children and society. Our course helps you take this journey confidently.</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                      <div class="feature d-flex">
+                          <div class="icon mr-3">
+                              <img src="https://i.postimg.cc/W30zCLN5/236817.png" alt="Requirements Icon" style="width: 50px;">
+                          </div>
+                          <div class="text">
+                              <h5>Comprehensive Curriculum</h5>
+                              <p>Our course meets all the requirements of effective parenting, providing you with the tools and knowledge you need.</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                      <div class="feature d-flex">
+                          <div class="icon mr-3">
+                              <img src="https://i.postimg.cc/KjFjyq4x/playing-games-with-kid-black-glyph-icon-engaging-toddler-in-fun-activities-child-imagination-and-cre.jpg" alt="Playful Activities Icon" style="width: 50px;">
+                          </div>
+                          <div class="text">
+                              <h5>Interactive Activities</h5>
+                              <p>Our courses include playful activities and events designed to make learning enjoyable and engaging for both parents and children.</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                      <div class="feature d-flex">
+                          <div class="icon mr-3">
+                              <img src="https://i.postimg.cc/YCyvmzDz/google-meet-icon-512x512-w3axk3aa.png" alt="Live Lectures Icon" style="width: 50px;">
+                          </div>
+                          <div class="text">
+                              <h5>Live Lectures</h5>
+                              <p>Lectures are live, providing an interactive learning environment where you can connect with our lecturers thrice a week.</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                      <div class="feature d-flex">
+                          <div class="icon mr-3">
+                              <img src="https://i.postimg.cc/8zCF504C/interview-icon-style-vector.jpg" alt="One-to-One Sessions Icon" style="width: 50px;">
+                          </div>
+                          <div class="text">
+                              <h5>One-to-One Sessions</h5>
+                              <p>We offer one-to-one sessions with expert counselors who can help you navigate specific parenting challenges.</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                      <div class="feature d-flex">
+                          <div class="icon mr-3">
+                              <img src="https://i.postimg.cc/cJp6F4SK/5526411.png" alt="Family Counselors Icon" style="width: 50px;">
+                          </div>
+                          <div class="text">
+                              <h5>Family Guidance</h5>
+                              <p>Our family counselors provide guidance and support in light of Deen, ensuring a holistic approach to parenting.</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Newsletter Section -->
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-8 offset-md-2">
+            {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center">Subscribe to Our Newsletter</h3>
+                    <p class="text-center">Stay updated with the latest courses and parenting tips by subscribing to our newsletter. We promise to deliver only valuable content that will help you on your parenting journey.</p>
+                    <hr>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                        </div>
+                        <button class="btn btn-info btn-block" type="submit">Subscribe Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
